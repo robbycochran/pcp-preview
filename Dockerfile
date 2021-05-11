@@ -2,19 +2,23 @@ FROM fedora:latest
 
 RUN dnf install -y --setopt=tsflags=nodocs \
 	redis grafana-pcp pcp-zeroconf \
-	pcp-pmda-bcc pcp-pmda-bpftrace \
-	kmod procps bcc-tools bpftrace \
+	#pcp-pmda-bcc pcp-pmda-bpftrace bcc-tools bpftrace \
+	#kmod procps \
 	&& \
     dnf clean all && \
-    touch /var/lib/pcp/pmdas/{bcc,bpftrace}/.NeedInstall
+    /bin/true
+    #/var/lib/pcp/pmdas/{bcc,bpftrace}/.NeedInstall
 
-COPY grafana.ini /etc/grafana/grafana.ini
+#COPY grafana.ini /etc/grafana/grafana.ini
 COPY grafana-configuration.service /etc/systemd/system
 COPY datasource.yaml /usr/share/grafana/conf/provisioning/datasources/grafana-pcp.yaml
-COPY bpftrace.conf /var/lib/pcp/pmdas/bpftrace/bpftrace.conf
+#COPY bpftrace.conf /var/lib/pcp/pmdas/bpftrace/bpftrace.conf
+COPY datasource.yaml /etc/grafana/provisioning/datasources/grafana-pcp.yaml
 
 RUN systemctl enable redis grafana-server grafana-configuration
-RUN systemctl enable pmcd pmie pmlogger pmproxy
+RUN systemctl enable pmcd pmie pmproxy
+#RUN systemctl enable pmproxy
+#RUN systemctl disable pmlogger
 
 # PCP archives (auto-discovered by pmproxy), REST API, PCP port
 VOLUME ["/var/log/pcp/pmlogger"]

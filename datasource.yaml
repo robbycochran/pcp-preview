@@ -7,16 +7,16 @@ datasources:
   orgId: 1
   url: http://localhost:44322
   editable: true
-  isDefault: true
 - name: PCP Redis
   type: pcp-redis-datasource
   access: proxy
   orgId: 1
   url: http://localhost:44322
   editable: true
-- name: PCP bpftrace
-  type: pcp-bpftrace-datasource
-  access: proxy
-  orgId: 1
-  url: http://localhost:44322
-  editable: true
+  isDefault: true
+#- name: PCP bpftrace
+#  type: pcp-bpftrace-datasource
+#  access: proxy
+#  orgId: 1
+#  url: http://localhost:44322
+#  editable: true
